@@ -1,5 +1,5 @@
 
-  var apiRoot = 'http://sapistaging-civicworks.dotcloud.com/api/v1/datasets/openplans/chicagobikes/',
+  var apiRoot = 'http://api.shareabouts.org/api/v1/datasets/openplans/chicagobikes/',
       meta,
       places,
       activity;
@@ -41,7 +41,9 @@
     function(data) {
       places = data;
 
+      // Taking this out because a place can have multiple location types
       // appendList($('#placebytype-list'), mapToCounts(groupByPlaceProperty('location_type')));
+
       appendList($('#placebyregion-list'), mapToCounts(groupByPlaceProperty('region_name')));
 
       var placesBySupportCount = _.sortBy(places, function(p) {
@@ -49,24 +51,66 @@
         return supportSet ? -supportSet.length : 0;
       });
 
-      placesBySupportCount = _.map(placesBySupportCount.slice(0, 9), function(p) {
-        var supportSet = _.find(p.submissions, function(obj) { return obj.type==='support'; });
-            key = '<a href="http://map.chicagobikes.org/locations/'+p.v1_id+'" target="_blank">'+
-                (p.region_name || '[Unknown]') + ' for ' + p.location_type+'</a>';
+      placesBySupportCount = _.map(placesBySupportCount.slice(0, 5), function(p) {
+        var supportSet = _.find(p.submissions, function(obj) { return obj.type==='support'; }),
+            neighborhood = p.region_name || '[Unknown]',
+            types,
+            key;
+
+        if (p.location_type && p.location_type.length > 1) {
+          types = p.location_type.splice(p.location_type.length-2, 2).join(' and ');
+          p.location_type.push(types);
+
+          types = p.location_type.join(', ');
+        }
+
+        key = '<a href="http://map.chicagobikes.org/locations/'+p.v1_id+'" target="_blank">'+
+                neighborhood + (types ? ' for ' + types : '') +'</a>';
         return {key: key, val: supportSet.length};
       });
 
       appendList($('#placebysupportcount-list'), placesBySupportCount);
     });
 
+  function appendActivity(activity, $activityList) {
+    $activityList.empty();
+    _.each(activity, function(obj) {
+      var name = obj.data.submitter_name || 'Someone',
+          verb = 'suggested',
+          place = _.find(places, function(p) { return p.id === obj.data.id; }),
+          where = '',
+          msg;
 
-  $.getJSON(apiRoot + 'activity/?format=json-p&limit=3&callback=?',
+      if (obj.type === 'comments') {
+        verb = 'commented on';
+      } else if (obj.type === 'support') {
+        verb = 'supported';
+      }
+
+      if (place.region_name) {
+        where = ' in ' + place.region_name;
+      }
+
+      msg = name + ' ' + verb + ' a <a href="http://map.chicagobikes.org/locations/'+
+        place.v1_id+'">place</a>' + where + '.';
+
+      if (obj.data.description) {
+        msg += '<p class="small"><em>"'+obj.data.description+'"</em></p>';
+      }
+
+      $activityList.append('<li>'+msg+'</li>');
+    });
+  }
+
+  $.getJSON(apiRoot + 'activity/?format=json-p&limit=7&callback=?',
     function(data) {
-      var $activityList = $('#activity-list');
       activity = data;
 
-      $activityList.empty();
-      _.each(activity, function(obj) {
-        $activityList.append('<li>'+obj.data.description+'</li>');
-      });
+      var id = setInterval(function() {
+        console.log('trying to process activity', places);
+        if (places) {
+          clearInterval(id);
+          appendActivity(activity, $('#activity-list'));
+        }
+      }, 200);
     });
