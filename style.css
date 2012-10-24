@@ -1,0 +1,39 @@
+body {
+  font-family: 'Pontano Sans', sans-serif;
+}
+
+p {
+  margin:0;
+}
+
+ul {
+  padding:0;
+}
+
+ol {
+  -moz-column-count: 3;
+  -moz-column-gap: 10px;
+  -webkit-column-count: 3;
+  -webkit-column-gap: 10px;
+  column-count: 3;
+  column-gap: 10px;
+  width: 980px;
+}
+
+ol li {
+  display: inline-block; /* Display inline-block, and absolutely NO FLOATS! */
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.big-number {
+  font-size: 6em;
+}
+
+.key {
+  min-width: 200px;
+}
+
+footer {
+  font-size: 0.7em;
+}

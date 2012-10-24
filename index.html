@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Chicago Bikeshare Stats</title>
+        <meta charset="utf-8">
+        <meta name="description" content="Shareabouts Dashboard Demo">
+        <link rel="stylesheet" href="style.css" type="text/css" media="screen">
+        <link href='http://fonts.googleapis.com/css?family=Pontano+Sans' rel='stylesheet' type='text/css'>
+    </head>
+    <body>
+        <hgroup>
+            <h1>Chicago Bikeshare Stats</h1>
+        </hgroup>
+        <ol>
+            <li>
+                <strong>Places</strong>
+                <p class="big-number" id="place-count"></p>
+            </li>
+            <li>
+                <strong>Comments</strong>
+                <p class="big-number" id="comment-count"></p>
+            </li>
+            <li>
+                <strong>Supports</strong>
+                <p class="big-number" id="support-count"></p>
+            </li>
+            <li>
+                <strong>Top Neighborhoods</strong>
+                <table id="placebyregion-list"></table>
+            </li>
+            <li>
+                <strong>Most Supported</strong>
+                <table id="placebysupportcount-list"></table>
+            </li>
+            <li>
+                <strong>Latest Activity</strong>
+                <ul id="activity-list"></ul>
+            </li>
+
+        </ol>
+        <footer>
+            <p>Kudos to <a href="http://sickdesigner.com/masonry-css-getting-awesome-with-css3/">Radu Chelariu</a>
+              for the CSS3 masonry layout</p>
+        </footer>
+
+      <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+      <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.2/underscore-min.js"></script>
+      <script src="main.js"></script>
+    </body>
+</html>
