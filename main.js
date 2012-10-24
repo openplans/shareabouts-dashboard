@@ -107,7 +107,6 @@
       activity = data;
 
       var id = setInterval(function() {
-        console.log('trying to process activity', places);
         if (places) {
           clearInterval(id);
           appendActivity(activity, $('#activity-list'));
