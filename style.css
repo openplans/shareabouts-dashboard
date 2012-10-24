@@ -2,6 +2,10 @@ body {
   font-family: 'Pontano Sans', sans-serif;
 }
 
+hgroup {
+  margin-bottom: 30px;
+}
+
 p {
   margin:0;
 }
