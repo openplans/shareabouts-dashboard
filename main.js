@@ -32,7 +32,7 @@
     return placesByProp;
   }
 
-  $.getJSON(apiRoot + '?format=json-p&callback=?',
+  $.getJSON(apiRoot + '?format=json-p&callback=_shareaboutsProcessDataset',
     function(data) {
       meta = data;
       $('#place-count').html(meta.places.length);
@@ -41,7 +41,7 @@
     });
 
 
-  $.getJSON(apiRoot + 'places/?format=json-p&callback=?',
+  $.getJSON(apiRoot + 'places/?format=json-p&callback=_shareaboutsProcessPlaces',
     function(data) {
       places = data;
 
@@ -104,9 +104,9 @@
 
       $activityList.append('<li>'+msg+'</li>');
     });
-  }
+  }v
 
-  $.getJSON(apiRoot + 'activity/?format=json-p&limit=7&callback=?',
+  $.getJSON(apiRoot + 'activity/?format=json-p&limit=7&callback=_shareaboutsProcessActivity',
     function(data) {
       activity = data;
 
