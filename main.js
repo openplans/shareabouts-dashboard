@@ -104,7 +104,7 @@
 
       $activityList.append('<li>'+msg+'</li>');
     });
-  }v
+  }
 
   $.getJSON(apiRoot + 'activity/?format=json-p&limit=7&callback=_shareaboutsProcessActivity',
     function(data) {
