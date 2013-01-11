@@ -1,8 +1,12 @@
-
-  var apiRoot = 'http://api.shareabouts.org/api/v1/datasets/openplans/chicagobikes/',
+  var apiRoot = 'http://api.shareabouts.org/api/v1/openplans/datasets/chicagobikes/',
       meta,
       places,
       activity;
+  
+  // jQuery should not send the cache-busting parameter
+  $.ajaxSetup({
+    cache: true;
+  });
 
   function appendList($target, dataByProperty) {
       $target.empty();
