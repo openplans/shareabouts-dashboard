@@ -2,10 +2,10 @@
       meta,
       places,
       activity;
-  
+
   // jQuery should not send the cache-busting parameter
   $.ajaxSetup({
-    cache: true;
+    cache: true
   });
 
   function appendList($target, dataByProperty) {
@@ -104,7 +104,7 @@
 
       $activityList.append('<li>'+msg+'</li>');
     });
-  }v
+  }
 
   $.getJSON(apiRoot + 'activity/?format=json-p&limit=7&callback=_shareaboutsProcessActivity',
     function(data) {
