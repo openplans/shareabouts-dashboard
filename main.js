@@ -2,10 +2,10 @@
       meta,
       places,
       activity;
-  
+
   // jQuery should not send the cache-busting parameter
   $.ajaxSetup({
-    cache: true;
+    cache: true
   });
 
   function appendList($target, dataByProperty) {
