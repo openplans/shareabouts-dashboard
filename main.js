@@ -5,7 +5,8 @@
 
   // jQuery should not send the cache-busting parameter
   $.ajaxSetup({
-    cache: true
+    cache: true,
+    dataType: 'jsonp'
   });
 
   function appendList($target, dataByProperty) {
@@ -32,17 +33,22 @@
     return placesByProp;
   }
 
-  $.getJSON(apiRoot + '?format=json-p&callback=_shareaboutsProcessDataset',
-    function(data) {
+  $.ajax({
+    url: apiRoot + '?format=json-p',
+    jsonpCallback: '_shareaboutsProcessDataset',
+    success: function(data) {
       meta = data;
       $('#place-count').html(meta.places.length);
       $('#comment-count').html(_.find(meta.submissions, function(obj) { return obj.type==='comments'; }).length);
       $('#support-count').html(_.find(meta.submissions, function(obj) { return obj.type==='support'; }).length);
-    });
+    }
+  });
 
 
-  $.getJSON(apiRoot + 'places/?format=json-p&callback=_shareaboutsProcessPlaces',
-    function(data) {
+  $.ajax({
+    url: apiRoot + 'places/?format=json-p',
+    jsonpCallback: '_shareaboutsProcessPlaces',
+    success: function(data) {
       places = data;
 
       // Taking this out because a place can have multiple location types
@@ -74,7 +80,8 @@
       });
 
       appendList($('#placebysupportcount-list'), placesBySupportCount);
-    });
+    }
+  });
 
   function appendActivity(activity, $activityList) {
     $activityList.empty();
@@ -84,6 +91,12 @@
           place = _.find(places, function(p) { return p.id === obj.data.id; }),
           where = '',
           msg;
+
+      // If no place was found, then bail.
+      if (!place) {
+        console.log('skipped a place');
+        return;
+      }
 
       if (obj.type === 'comments') {
         verb = 'commented on';
@@ -106,8 +119,10 @@
     });
   }
 
-  $.getJSON(apiRoot + 'activity/?format=json-p&limit=7&callback=_shareaboutsProcessActivity',
-    function(data) {
+  $.ajax({
+    url: apiRoot + 'activity/?format=json-p&limit=7',
+    jsonpCallback: '_shareaboutsProcessActivity',
+    success: function(data) {
       activity = data;
 
       var id = setInterval(function() {
@@ -116,4 +131,5 @@
           appendActivity(activity, $('#activity-list'));
         }
       }, 200);
-    });
+    }
+  });
